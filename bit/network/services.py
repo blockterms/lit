@@ -256,6 +256,60 @@ class SmartbitAPI:
         return True if r.status_code == 200 else False
 
 
+class SoChainAPI:
+    # TODO: add make this support any network on SoChain
+    MAIN_ENDPOINT = 'https://chain.so/api/v2/'
+    MAIN_ADDRESS_API = MAIN_ENDPOINT + 'get_address_balance/'
+    MAIN_TRANSACTIONS_RECV = 'get_tx_received/'
+    MAIN_TRANSACTIONS_SENT = 'get_tx_sent/'
+
+    @classmethod
+    def _get_balance(cls, network, address):
+        url = "{endpoint}{network}/{address}".format(
+            endpoint=cls.MAIN_ADDRESS_API,
+            network=network,
+            address=address
+        )
+        r = requests.get(url, timeout=DEFAULT_TIMEOUT)
+        if r.status_code != 200:
+            raise ConnectionError
+        return r.json()['data']["confirmed_balance"]
+
+    @classmethod
+    def get_balance(cls, address):
+        return cls._get_balance('LTC', address)
+
+    @classmethod
+    def get_balance_testnet(cls, address):
+        return cls._get_balance('LTCTEST', address)
+
+    @classmethod
+    def _get_transactions(cls, network, address):
+        transactions = []
+
+        for endpoint in [cls.MAIN_TRANSACTIONS_RECV, cls.MAIN_TRANSACTIONS_SENT]:
+            url = "{endpoint}{network}/{address}".format(
+                endpoint=endpoint,
+                network=network,
+                address=address
+            )
+            r = requests.get(url, timeout=DEFAULT_TIMEOUT)
+            if r.status_code != 200:
+                raise ConnectionError
+            data = r.json()["data"]["txs"]
+            transactions += data
+
+        return data
+
+    @classmethod
+    def get_transactions(cls, address):
+        return cls._get_transactions('LTC', address)
+
+    @classmethod
+    def get_transactions_testnet(cls, address):
+        return cls._get_transactions('LTCTEST', address)
+
+
 class NetworkAPI:
     IGNORED_ERRORS = (ConnectionError,
                       requests.exceptions.ConnectionError,
