@@ -257,11 +257,14 @@ class SmartbitAPI:
 
 
 class SoChainAPI:
-    # TODO: add make this support any network on SoChain
+    # TODO: make this support any network on SoChain
+    #       (this just requires making network dynamic)
     MAIN_ENDPOINT = 'https://chain.so/api/v2/'
     MAIN_ADDRESS_API = MAIN_ENDPOINT + 'get_address_balance/'
     MAIN_TRANSACTIONS_RECV = 'get_tx_received/'
     MAIN_TRANSACTIONS_SENT = 'get_tx_sent/'
+    MAIN_TRANSACTIONS_UNSPENT = 'get_tx_unspent/'
+    MAIN_TRANSACTION_SEND = 'send_tx/'
 
     @classmethod
     def _get_balance(cls, network, address):
@@ -308,6 +311,45 @@ class SoChainAPI:
     @classmethod
     def get_transactions_testnet(cls, address):
         return cls._get_transactions('LTCTEST', address)
+
+    @classmethod
+    def _get_unspent(cls, network, address):
+        url = "{endpoint}{network}/{address}".format(
+            endpoint=cls.MAIN_TRANSACTIONS_UNSPENT,
+            network=network,
+            address=address
+        )
+        r = requests.get(url, timeout=DEFAULT_TIMEOUT)
+        if r.status_code != 200:
+            raise ConnectionError
+        return r.json()['data']["txs"]
+
+    @classmethod
+    def get_unspent(cls, address):
+        return cls._get_unspent('LTC', address)
+
+    @classmethod
+    def get_unspent_testnet(cls, address):
+        return cls._get_unspent('LTCTEST', address)
+
+    @classmethod
+    def _broadcast_tx(cls, network, tx_hex, address):
+        url = "{endpoint}{network}/{address}".format(
+            endpoint=cls.MAIN_TRANSACTION_SEND,
+            network=network,
+            address=address
+        )
+        r = requests.post(url, timeout=DEFAULT_TIMEOUT,
+                          data={'tx_hex': tx_hex})
+        return True if r.status_code == 200 else False
+
+    @classmethod
+    def broadcast_tx(cls, tx_hex):
+        return cls._get_unspent('LTC', tx_hex, address)
+
+    @classmethod
+    def broadcast_tx_textnet(cls, tx_hex):
+        return cls._get_unspent('LTCTEST', tx_hex, address)
 
 
 class NetworkAPI:
