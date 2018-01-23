@@ -261,10 +261,11 @@ class SoChainAPI:
     #       (this just requires making network dynamic)
     MAIN_ENDPOINT = 'https://chain.so/api/v2/'
     MAIN_ADDRESS_API = MAIN_ENDPOINT + 'get_address_balance/'
-    MAIN_TRANSACTIONS_RECV = 'get_tx_received/'
-    MAIN_TRANSACTIONS_SENT = 'get_tx_sent/'
-    MAIN_TRANSACTIONS_UNSPENT = 'get_tx_unspent/'
-    MAIN_TRANSACTION_SEND = 'send_tx/'
+    MAIN_TRANSACTIONS_RECV = MAIN_ENDPOINT + 'get_tx_received/'
+    MAIN_TRANSACTIONS_SENT = MAIN_ENDPOINT + 'get_tx_sent/'
+    MAIN_TRANSACTIONS_UNSPENT = MAIN_ENDPOINT + 'get_tx_unspent/'
+    MAIN_TRANSACTION_SEND = MAIN_ENDPOINT + 'send_tx/'
+
 
     @classmethod
     def _get_balance(cls, network, address):
@@ -288,6 +289,7 @@ class SoChainAPI:
 
     @classmethod
     def _get_transactions(cls, network, address):
+        raise Exception('Not Implemented')
         transactions = []
 
         for endpoint in [cls.MAIN_TRANSACTIONS_RECV, cls.MAIN_TRANSACTIONS_SENT]:
@@ -300,7 +302,18 @@ class SoChainAPI:
             if r.status_code != 200:
                 raise ConnectionError
             data = r.json()["data"]["txs"]
+            '''
+            TODO
             transactions += data
+
+            for tx in data:
+                x = Unspent(currency_to_satoshi(tx['value'], 'btc'),
+                    tx['confirmations'],
+                    tx['script_pub_key']['hex'],
+                    tx['txid'],
+                    tx['n'])
+            '''
+
 
         return data
 
@@ -322,8 +335,14 @@ class SoChainAPI:
         r = requests.get(url, timeout=DEFAULT_TIMEOUT)
         if r.status_code != 200:
             raise ConnectionError
-        return r.json()['data']["txs"]
-
+        return [
+            Unspent(currency_to_satoshi(tx['value'], 'ltc'),
+                    tx['confirmations'],
+                    tx['script_hex'],
+                    tx['txid'],
+                    tx['output_no'])
+            for tx in r.json()['data']["txs"]
+        ]
     @classmethod
     def get_unspent(cls, address):
         return cls._get_unspent('LTC', address)
@@ -348,7 +367,7 @@ class SoChainAPI:
         return cls._get_unspent('LTC', tx_hex, address)
 
     @classmethod
-    def broadcast_tx_textnet(cls, tx_hex):
+    def broadcast_tx_testnet(cls, tx_hex):
         return cls._get_unspent('LTCTEST', tx_hex, address)
 
 
@@ -358,27 +377,15 @@ class NetworkAPI:
                       requests.exceptions.Timeout,
                       requests.exceptions.ReadTimeout)
 
-    GET_BALANCE_MAIN = [BitpayAPI.get_balance,
-                        SmartbitAPI.get_balance,
-                        BlockchainAPI.get_balance]
-    GET_TRANSACTIONS_MAIN = [BitpayAPI.get_transactions,  # Limit 1000
-                             SmartbitAPI.get_transactions,  # Limit 1000
-                             BlockchainAPI.get_transactions]  # No limit, requires multiple requests
-    GET_UNSPENT_MAIN = [BitpayAPI.get_unspent,  # No limit
-                        SmartbitAPI.get_unspent,  # Limit 1000
-                        BlockchainAPI.get_unspent]  # Limit 250
-    BROADCAST_TX_MAIN = [BitpayAPI.broadcast_tx,
-                         SmartbitAPI.broadcast_tx,  # Limit 5/minute
-                         BlockchainAPI.broadcast_tx]
+    GET_BALANCE_MAIN = [SoChainAPI.get_balance,]
+    GET_TRANSACTIONS_MAIN = [SoChainAPI.get_transactions,]
+    GET_UNSPENT_MAIN = [SoChainAPI.get_unspent,]
+    BROADCAST_TX_MAIN = [SoChainAPI.broadcast_tx,]
 
-    GET_BALANCE_TEST = [BitpayAPI.get_balance_testnet,
-                        SmartbitAPI.get_balance_testnet]
-    GET_TRANSACTIONS_TEST = [BitpayAPI.get_transactions_testnet,  # Limit 1000
-                             SmartbitAPI.get_transactions_testnet]  # Limit 1000
-    GET_UNSPENT_TEST = [BitpayAPI.get_unspent_testnet,  # No limit
-                        SmartbitAPI.get_unspent_testnet]  # Limit 1000
-    BROADCAST_TX_TEST = [BitpayAPI.broadcast_tx_testnet,
-                         SmartbitAPI.broadcast_tx_testnet]  # Limit 5/minute
+    GET_BALANCE_TEST = [SoChainAPI.get_balance_testnet,]
+    GET_TRANSACTIONS_TEST = [SoChainAPI.get_transactions_testnet,]
+    GET_UNSPENT_TEST = [SoChainAPI.get_unspent_testnet,]
+    BROADCAST_TX_TEST = [SoChainAPI.broadcast_tx_testnet,]
 
     @classmethod
     def get_balance(cls, address):

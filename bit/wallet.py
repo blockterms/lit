@@ -448,17 +448,13 @@ class PrivateKeyTestnet(BaseKey):
         """
         return satoshi_to_currency_cached(self.balance, currency)
 
-    def get_balance(self, currency='satoshi'):
+    def get_balance(self):
         """Fetches the current balance by calling
-        :func:`~bit.PrivateKeyTestnet.get_unspents` and returns it using
-        :func:`~bit.PrivateKeyTestnet.balance_as`.
-
-        :param currency: One of the :ref:`supported currencies`.
-        :type currency: ``str``
-        :rtype: ``str``
+        :func:`~bit.PrivateKeyTestnet.get_unspents` and returns it
+        :rtype: ``Decimal``
         """
         self.get_unspents()
-        return self.balance_as(currency)
+        return self.balance
 
     def get_unspents(self):
         """Fetches all available unspent transaction outputs.
