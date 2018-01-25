@@ -7,7 +7,7 @@ from requests.exceptions import ConnectionError, HTTPError, Timeout
 DEFAULT_FEE_FAST = 220
 DEFAULT_FEE_HOUR = 160
 DEFAULT_CACHE_TIME = 60 * 10
-URL = 'https://bitcoinfees.earn.com/api/v1/fees/recommended'
+URL = 'https://api.blockcypher.com/v1/ltc/main'
 
 
 def set_fee_cache_time(seconds):
@@ -27,7 +27,13 @@ def get_fee(fast=True):
     :type fast: ``bool``
     :rtype: ``int``
     """
-    return requests.get(URL).json()['fastestFee' if fast else 'hourFee']
+    response = requests.get(URL).json()
+
+    # convert from kb to bytes
+    fast_fee = response['high_fee_per_kb'] * 0.0001
+    slow_fee = response['low_fee_per_kb'] * 0.0001
+
+    return fast_fee if fast else slow_fee
 
 
 def get_fee_local_cache(f):
@@ -51,7 +57,7 @@ def get_fee_local_cache(f):
                     # If we have a non 2XX status code, raise HTTPError.
                     request.raise_for_status()
                     # Otherwise, try to parse json as normal.
-                    cached_fee_fast = request.json()['fastestFee']
+                    cached_fee_fast = request.json()['high_fee_per_kb'] * 0.0001
                     fast_last_update = now
                 except (ConnectionError, HTTPError, Timeout):  # pragma: no cover
                     return cached_fee_fast or DEFAULT_FEE_FAST
@@ -68,7 +74,7 @@ def get_fee_local_cache(f):
                     # If we have a non 2XX status code, raise HTTPError.
                     request.raise_for_status()
                     # Otherwise, try to parse json as normal.
-                    cached_fee_hour = request.json()['hourFee']
+                    cached_fee_hour = request.json()['low_fee_per_kb'] * 0.0001
                     hour_last_update = now
                 except (ConnectionError, HTTPError, Timeout):  # pragma: no cover
                     return cached_fee_hour or DEFAULT_FEE_HOUR
