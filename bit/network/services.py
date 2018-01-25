@@ -352,11 +352,10 @@ class SoChainAPI:
         return cls._get_unspent('LTCTEST', address)
 
     @classmethod
-    def _broadcast_tx(cls, network, tx_hex, address):
-        url = "{endpoint}{network}/{address}".format(
+    def _broadcast_tx(cls, network, tx_hex):
+        url = "{endpoint}{network}/".format(
             endpoint=cls.MAIN_TRANSACTION_SEND,
-            network=network,
-            address=address
+            network=network
         )
         r = requests.post(url, timeout=DEFAULT_TIMEOUT,
                           data={'tx_hex': tx_hex})
@@ -364,11 +363,11 @@ class SoChainAPI:
 
     @classmethod
     def broadcast_tx(cls, tx_hex):
-        return cls._get_unspent('LTC', tx_hex, address)
+        return cls._broadcast_tx('LTC', tx_hex)
 
     @classmethod
     def broadcast_tx_testnet(cls, tx_hex):
-        return cls._get_unspent('LTCTEST', tx_hex, address)
+        return cls._broadcast_tx('LTCTEST', tx_hex)
 
 
 class NetworkAPI:
