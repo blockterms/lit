@@ -30,8 +30,8 @@ def get_fee(fast=True):
     response = requests.get(URL).json()
 
     # convert from kb to bytes
-    fast_fee = response['high_fee_per_kb'] * 0.0001
-    slow_fee = response['low_fee_per_kb'] * 0.0001
+    fast_fee = int(response['high_fee_per_kb'] / 1000)
+    slow_fee = int(response['low_fee_per_kb'] / 1000)
 
     return fast_fee if fast else slow_fee
 
@@ -57,7 +57,7 @@ def get_fee_local_cache(f):
                     # If we have a non 2XX status code, raise HTTPError.
                     request.raise_for_status()
                     # Otherwise, try to parse json as normal.
-                    cached_fee_fast = request.json()['high_fee_per_kb'] * 0.0001
+                    cached_fee_fast = int(request.json()['high_fee_per_kb'] / 1000)
                     fast_last_update = now
                 except (ConnectionError, HTTPError, Timeout):  # pragma: no cover
                     return cached_fee_fast or DEFAULT_FEE_FAST
@@ -74,7 +74,7 @@ def get_fee_local_cache(f):
                     # If we have a non 2XX status code, raise HTTPError.
                     request.raise_for_status()
                     # Otherwise, try to parse json as normal.
-                    cached_fee_hour = request.json()['low_fee_per_kb'] * 0.0001
+                    cached_fee_hour = int(request.json()['low_fee_per_kb'] / 1000)
                     hour_last_update = now
                 except (ConnectionError, HTTPError, Timeout):  # pragma: no cover
                     return cached_fee_hour or DEFAULT_FEE_HOUR
