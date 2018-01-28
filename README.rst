@@ -1,14 +1,5 @@
-Bit: Bitcoin made easy.
+Lit 🔥: Litecoin made easy.
 =======================
-
-.. image:: https://img.shields.io/pypi/v/bit.svg?style=flat-square
-    :target: https://pypi.org/project/bit
-
-.. image:: https://img.shields.io/travis/ofek/bit.svg?branch=master&style=flat-square
-    :target: https://travis-ci.org/ofek/bit
-
-.. image:: https://img.shields.io/codecov/c/github/ofek/bit.svg?style=flat-square
-    :target: https://codecov.io/gh/ofek/bit
 
 .. image:: https://img.shields.io/pypi/pyversions/bit.svg?style=flat-square
     :target: https://pypi.org/project/bit
@@ -18,13 +9,13 @@ Bit: Bitcoin made easy.
 
 -----
 
-Bit is Python's `fastest <https://ofek.github.io/bit/guide/intro.html#why-bit>`_
-Bitcoin library and was designed from the beginning to feel intuitive, be
+Lit is Python's `fastest <https://ofek.github.io/bit/guide/intro.html#why-bit>`_
+Litecoin Library based on Bit, a Bitcoin library that was designed from the beginning to feel intuitive, be
 effortless to use, and have readable source code. It is heavily inspired by
 `Requests <https://github.com/kennethreitz/requests>`_ and
 `Keras <https://github.com/fchollet/keras>`_.
 
-**Bit is so easy to use, in fact, you can do this:**
+**Lit is so easy to use, in fact, you can do this:**
 
 .. code-block:: python
 
@@ -72,7 +63,7 @@ If you are intrigued, continue reading. If not, continue all the same!
 Installation
 ------------
 
-Bit is distributed on `PyPI`_ as a universal wheel and is available on Linux/macOS
+TODO: Lit is distributed on `PyPI`_ as a universal wheel and is available on Linux/macOS
 and Windows and supports Python 3.5+ and PyPy3.5-v5.7.1+. ``pip`` >= 8.1.2 is required.
 
 .. code-block:: bash
@@ -82,17 +73,18 @@ and Windows and supports Python 3.5+ and PyPy3.5-v5.7.1+. ``pip`` >= 8.1.2 is re
 Documentation
 -------------
 
-Docs are `hosted by Github Pages`_ and are automatically built and published
-by Travis after every successful commit to Bit's ``master`` branch.
+The original docs for Bit can be found [here](https://ofek.github.io/bit).
 
 Credits
 -------
 
+- `Ofek`_ the original author of Bit
 - Logo courtesy of `<https://textcraft.net>`_
-- `Gregory Maxwell`_ (Bitcoin core dev) for teaching me a bit of `ECC`_ math
-- `arubi`_ in #bitcoin for helping me understand transaction gotchas
-- `fuzeman`_ for bestowing me the name ``bit`` on the `Python Package Index`_
+- `Gregory Maxwell`_ (Bitcoin core dev) for teaching Ofek a bit of `ECC`_ math
+- `arubi`_ in #bitcoin for helping Ofek understand transaction gotchas
+- `fuzeman`_ for bestowing Ofek the name ``bit`` on the `Python Package Index`_
 
+.. _Ofek: https://github.com/ofek
 .. _PyPI: https://pypi.org/project/bit
 .. _hosted by Github Pages: https://ofek.github.io/bit
 .. _Gregory Maxwell: https://github.com/gmaxwell
