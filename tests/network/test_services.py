@@ -1,7 +1,7 @@
 import pytest
 
-import bit
-from bit.network.services import (
+import lit
+from lit.network.services import (
     BitpayAPI, BlockchainAPI, NetworkAPI, SmartbitAPI, set_service_timeout
 )
 from tests.utils import (
@@ -29,9 +29,9 @@ def all_items_equal(seq):
 
 
 def test_set_service_timeout():
-    original = bit.network.services.DEFAULT_TIMEOUT
+    original = lit.network.services.DEFAULT_TIMEOUT
     set_service_timeout(3)
-    updated = bit.network.services.DEFAULT_TIMEOUT
+    updated = lit.network.services.DEFAULT_TIMEOUT
 
     assert original != updated
     assert updated == 3

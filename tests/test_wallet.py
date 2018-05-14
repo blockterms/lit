@@ -4,13 +4,13 @@ import time
 
 import pytest
 
-from bit.crypto import ECPrivateKey
-from bit.curve import Point
-from bit.format import verify_sig
-from bit.network import NetworkAPI
-from bit.wallet import BaseKey, Key, PrivateKey, PrivateKeyTestnet, wif_to_key
+from lit.crypto import ECPrivateKey
+from lit.curve import Point
+from lit.format import verify_sig
+from lit.network import NetworkAPI
+from lit.wallet import BaseKey, Key, PrivateKey, PrivateKeyTestnet, wif_to_key
 from .samples import (
-    BITCOIN_ADDRESS, BITCOIN_ADDRESS_TEST, PRIVATE_KEY_BYTES, PRIVATE_KEY_DER,
+    LITECOIN_ADDRESS, LITECOIN_ADDRESS_TEST, PRIVATE_KEY_BYTES, PRIVATE_KEY_DER,
     PRIVATE_KEY_HEX, PRIVATE_KEY_NUM, PRIVATE_KEY_PEM,
     PUBLIC_KEY_COMPRESSED, PUBLIC_KEY_UNCOMPRESSED, PUBLIC_KEY_X,
     PUBLIC_KEY_Y, WALLET_FORMAT_COMPRESSED_MAIN, WALLET_FORMAT_COMPRESSED_TEST,
@@ -131,8 +131,8 @@ class TestPrivateKey:
 
     def test_address(self):
         private_key = PrivateKey(WALLET_FORMAT_MAIN)
-        assert private_key.address == BITCOIN_ADDRESS
-        assert private_key.address == BITCOIN_ADDRESS
+        assert private_key.address == LITECOIN_ADDRESS
+        assert private_key.address == LITECOIN_ADDRESS
 
     def test_to_wif(self):
         private_key = PrivateKey(WALLET_FORMAT_MAIN)
@@ -191,8 +191,8 @@ class TestPrivateKeyTestnet:
 
     def test_address(self):
         private_key = PrivateKeyTestnet(WALLET_FORMAT_TEST)
-        assert private_key.address == BITCOIN_ADDRESS_TEST
-        assert private_key.address == BITCOIN_ADDRESS_TEST
+        assert private_key.address == LITECOIN_ADDRESS_TEST
+        assert private_key.address == LITECOIN_ADDRESS_TEST
 
     def test_to_wif(self):
         private_key = PrivateKeyTestnet(WALLET_FORMAT_TEST)

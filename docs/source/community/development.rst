@@ -4,7 +4,7 @@ Development
 Oversight
 ---------
 
-`Ofek Lev <https://github.com/ofek>`_, who is also the only current maintainer,
+`yak <https://github.com/yanilkr>`_, who is also the only current maintainer,
 has the final say regarding any new features or API changes.
 
 Philosophy

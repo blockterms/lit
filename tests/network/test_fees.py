@@ -1,13 +1,13 @@
 from time import sleep, time
 
-import bit
-from bit.network.fees import get_fee, get_fee_cached, set_fee_cache_time
+import lit
+from lit.network.fees import get_fee, get_fee_cached, set_fee_cache_time
 
 
 def test_set_fee_cache_time():
-    original = bit.network.fees.DEFAULT_CACHE_TIME
+    original = lit.network.fees.DEFAULT_CACHE_TIME
     set_fee_cache_time(30)
-    updated = bit.network.fees.DEFAULT_CACHE_TIME
+    updated = lit.network.fees.DEFAULT_CACHE_TIME
 
     assert original != updated
     assert updated == 30

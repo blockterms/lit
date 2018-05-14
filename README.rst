@@ -9,6 +9,14 @@ Lit 🔥: Litecoin made easy.
 
 -----
 
+NOTE: This is not production ready. Lot of work ahead
+
+Priority
+1. Wallet Feature
+2. Raw Tx
+3. Fees
+4. Network
+
 Lit is Python's `fastest <https://ofek.github.io/bit/guide/intro.html#why-bit>`_
 Litecoin Library based on Bit, a Bitcoin library that was designed from the beginning to feel intuitive, be
 effortless to use, and have readable source code. It is heavily inspired by
@@ -19,7 +27,7 @@ effortless to use, and have readable source code. It is heavily inspired by
 
 .. code-block:: python
 
-    >>> from bit import Key
+    >>> from lit import Key
     >>>
     >>> my_key = Key(...)
     >>> my_key.get_balance('usd')
@@ -68,12 +76,14 @@ and Windows and supports Python 3.5+ and PyPy3.5-v5.7.1+. ``pip`` >= 8.1.2 is re
 
 .. code-block:: bash
 
-    $ pip install bit
+    $ pip install litpy
 
 Documentation
 -------------
 
 The original docs for Bit can be found [here](https://ofek.github.io/bit).
+
+[To Do] Add similar docs for lit
 
 Credits
 -------

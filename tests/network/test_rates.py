@@ -1,18 +1,18 @@
 from time import sleep, time
 
-import bit
-from bit.network.rates import (
+import lit
+from lit.network.rates import (
     RatesAPI, btc_to_satoshi, currency_to_satoshi, currency_to_satoshi_cached,
     mbtc_to_satoshi, satoshi_to_currency, satoshi_to_currency_cached,
     satoshi_to_satoshi, set_rate_cache_time, ubtc_to_satoshi
 )
-from bit.utils import Decimal
+from lit.utils import Decimal
 
 
 def test_set_rate_cache_time():
-    original = bit.network.rates.DEFAULT_CACHE_TIME
+    original = lit.network.rates.DEFAULT_CACHE_TIME
     set_rate_cache_time(30)
-    updated = bit.network.rates.DEFAULT_CACHE_TIME
+    updated = lit.network.rates.DEFAULT_CACHE_TIME
 
     assert original != updated
     assert updated == 30

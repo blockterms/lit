@@ -1,14 +1,14 @@
 import click
 
-from bit.keygen import generate_matching_address
+from lit.keygen import generate_matching_address
 
 
 @click.group(invoke_without_command=True)
-def bit():
+def lit():
     pass
 
 
-@bit.command()
+@lit.command()
 @click.argument('prefix')
 @click.option('--cores', '-c', default='all')
 def gen(prefix, cores):

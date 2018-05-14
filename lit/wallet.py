@@ -1,13 +1,13 @@
 import json
 
-from bit.crypto import ECPrivateKey
-from bit.curve import Point
-from bit.format import (
+from lit.crypto import ECPrivateKey
+from lit.curve import Point
+from lit.format import (
     bytes_to_wif, public_key_to_address, public_key_to_coords, wif_to_bytes
 )
-from bit.network import NetworkAPI, get_fee_cached, satoshi_to_currency_cached
-from bit.network.meta import Unspent
-from bit.transaction import calc_txid, create_p2pkh_transaction, sanitize_tx_data
+from lit.network import NetworkAPI, get_fee_cached, satoshi_to_currency_cached
+from lit.network.meta import Unspent
+from lit.transaction import calc_txid, create_p2pkh_transaction, sanitize_tx_data
 
 
 def wif_to_key(wif):
@@ -122,7 +122,7 @@ class BaseKey:
 
 
 class PrivateKey(BaseKey):
-    """This class represents a Bitcoin private key. ``Key`` is an alias.
+    """This class represents a Litecoin private key. ``Key`` is an alias.
 
     :param wif: A private key serialized to the Wallet Import Format. If the
                 argument is not supplied, a new private key will be created.
@@ -166,8 +166,8 @@ class PrivateKey(BaseKey):
 
     def get_balance(self, currency='satoshi'):
         """Fetches the current balance by calling
-        :func:`~bit.PrivateKey.get_unspents` and returns it using
-        :func:`~bit.PrivateKey.balance_as`.
+        :func:`~lit.PrivateKey.get_unspents` and returns it using
+        :func:`~lit.PrivateKey.balance_as`.
 
         :param currency: One of the :ref:`supported currencies`.
         :type currency: ``str``
@@ -179,7 +179,7 @@ class PrivateKey(BaseKey):
     def get_unspents(self):
         """Fetches all available unspent transaction outputs.
 
-        :rtype: ``list`` of :class:`~bit.network.meta.Unspent`
+        :rtype: ``list`` of :class:`~lit.network.meta.Unspent`
         """
         self.unspents[:] = NetworkAPI.get_unspent(self.address)
         self.balance = sum(unspent.amount for unspent in self.unspents)
@@ -243,7 +243,7 @@ class PrivateKey(BaseKey):
              message=None, unspents=None):  # pragma: no cover
         """Creates a signed P2PKH transaction and attempts to broadcast it on
         the blockchain. This accepts the same arguments as
-        :func:`~bit.PrivateKey.create_transaction`.
+        :func:`~lit.PrivateKey.create_transaction`.
 
         :param outputs: A sequence of outputs you wish to send in the form
                         ``(destination, amount, currency)``. The amount can
@@ -270,7 +270,7 @@ class PrivateKey(BaseKey):
         :type message: ``str``
         :param unspents: The UTXOs to use as the inputs. By default Bit will
                          communicate with the blockchain itself.
-        :type unspents: ``list`` of :class:`~bit.network.meta.Unspent`
+        :type unspents: ``list`` of :class:`~lit.network.meta.Unspent`
         :returns: The transaction ID.
         :rtype: ``str``
         """
@@ -300,17 +300,17 @@ class PrivateKey(BaseKey):
                            compressed public key. This influences the fee.
         :type compressed: ``bool``
         :param fee: The number of satoshi per byte to pay to miners. By default
-                    Bit will poll `<https://bitcoinfees.earn.com>`_ and use a fee
+                    Lit will poll `<https://bitcoinfees.earn.com>`_ and use a fee
                     that will allow your transaction to be confirmed as soon as
                     possible.
         :type fee: ``int``
         :param leftover: The destination that will receive any change from the
-                         transaction. By default Bit will send any change to
+                         transaction. By default Lit will send any change to
                          the same address you sent from.
         :type leftover: ``str``
-        :param combine: Whether or not Bit should use all available UTXOs to
+        :param combine: Whether or not Lit should use all available UTXOs to
                         make future transactions smaller and therefore reduce
-                        fees. By default Bit will consolidate UTXOs.
+                        fees. By default Lit will consolidate UTXOs.
         :type combine: ``bool``
         :param message: A message to include in the transaction. This will be
                         stored in the blockchain forever. Due to size limits,
@@ -318,7 +318,7 @@ class PrivateKey(BaseKey):
         :type message: ``str``
         :param unspents: The UTXOs to use as the inputs. By default Bit will
                          communicate with the blockchain itself.
-        :type unspents: ``list`` of :class:`~bit.network.meta.Unspent`
+        :type unspents: ``list`` of :class:`~lit.network.meta.Unspent`
         :returns: JSON storing data required to create an offline transaction.
         :rtype: ``str``
         """
@@ -360,7 +360,7 @@ class PrivateKey(BaseKey):
         """
         :param hexed: A private key previously encoded as hex.
         :type hexed: ``str``
-        :rtype: :class:`~bit.PrivateKey`
+        :rtype: :class:`~lit.PrivateKey`
         """
         return PrivateKey(ECPrivateKey.from_hex(hexed))
 
@@ -369,7 +369,7 @@ class PrivateKey(BaseKey):
         """
         :param bytestr: A private key previously encoded as hex.
         :type bytestr: ``bytes``
-        :rtype: :class:`~bit.PrivateKey`
+        :rtype: :class:`~lit.PrivateKey`
         """
         return PrivateKey(ECPrivateKey(bytestr))
 
@@ -378,7 +378,7 @@ class PrivateKey(BaseKey):
         """
         :param der: A private key previously encoded as DER.
         :type der: ``bytes``
-        :rtype: :class:`~bit.PrivateKey`
+        :rtype: :class:`~lit.PrivateKey`
         """
         return PrivateKey(ECPrivateKey.from_der(der))
 
@@ -387,7 +387,7 @@ class PrivateKey(BaseKey):
         """
         :param pem: A private key previously encoded as PEM.
         :type pem: ``bytes``
-        :rtype: :class:`~bit.PrivateKey`
+        :rtype: :class:`~lit.PrivateKey`
         """
         return PrivateKey(ECPrivateKey.from_pem(pem))
 
@@ -396,7 +396,7 @@ class PrivateKey(BaseKey):
         """
         :param num: A private key in raw integer form.
         :type num: ``int``
-        :rtype: :class:`~bit.PrivateKey`
+        :rtype: :class:`~lit.PrivateKey`
         """
         return PrivateKey(ECPrivateKey.from_int(num))
 
@@ -405,7 +405,7 @@ class PrivateKey(BaseKey):
 
 
 class PrivateKeyTestnet(BaseKey):
-    """This class represents a testnet Bitcoin private key. **Note:** coins
+    """This class represents a testnet Litecoin private key. **Note:** coins
     on the test network have no monetary value!
 
     :param wif: A private key serialized to the Wallet Import Format. If the
@@ -450,7 +450,7 @@ class PrivateKeyTestnet(BaseKey):
 
     def get_balance(self):
         """Fetches the current balance by calling
-        :func:`~bit.PrivateKeyTestnet.get_unspents` and returns it
+        :func:`~lit.PrivateKeyTestnet.get_unspents` and returns it
         :rtype: ``Decimal``
         """
         self.get_unspents()
@@ -459,7 +459,7 @@ class PrivateKeyTestnet(BaseKey):
     def get_unspents(self):
         """Fetches all available unspent transaction outputs.
 
-        :rtype: ``list`` of :class:`~bit.network.meta.Unspent`
+        :rtype: ``list`` of :class:`~lit.network.meta.Unspent`
         """
         self.unspents[:] = NetworkAPI.get_unspent_testnet(self.address)
         self.balance = sum(unspent.amount for unspent in self.unspents)
@@ -484,25 +484,25 @@ class PrivateKeyTestnet(BaseKey):
                         must be :ref:`supported <supported currencies>`.
         :type outputs: ``list`` of ``tuple``
         :param fee: The number of satoshi per byte to pay to miners. By default
-                    Bit will poll `<https://bitcoinfees.earn.com>`_ and use a fee
+                    Lit will poll `<https://bitcoinfees.earn.com>`_ and use a fee
                     that will allow your transaction to be confirmed as soon as
                     possible.
         :type fee: ``int``
         :param leftover: The destination that will receive any change from the
-                         transaction. By default Bit will send any change to
+                         transaction. By default Lit will send any change to
                          the same address you sent from.
         :type leftover: ``str``
-        :param combine: Whether or not Bit should use all available UTXOs to
+        :param combine: Whether or not Lit should use all available UTXOs to
                         make future transactions smaller and therefore reduce
-                        fees. By default Bit will consolidate UTXOs.
+                        fees. By default Lit will consolidate UTXOs.
         :type combine: ``bool``
         :param message: A message to include in the transaction. This will be
                         stored in the blockchain forever. Due to size limits,
                         each message will be stored in chunks of 40 bytes.
         :type message: ``str``
-        :param unspents: The UTXOs to use as the inputs. By default Bit will
+        :param unspents: The UTXOs to use as the inputs. By default Lit will
                          communicate with the testnet blockchain itself.
-        :type unspents: ``list`` of :class:`~bit.network.meta.Unspent`
+        :type unspents: ``list`` of :class:`~lit.network.meta.Unspent`
         :returns: The signed transaction as hex.
         :rtype: ``str``
         """
@@ -523,7 +523,7 @@ class PrivateKeyTestnet(BaseKey):
              message=None, unspents=None):
         """Creates a signed P2PKH transaction and attempts to broadcast it on
         the testnet blockchain. This accepts the same arguments as
-        :func:`~bit.PrivateKeyTestnet.create_transaction`.
+        :func:`~lit.PrivateKeyTestnet.create_transaction`.
 
         :param outputs: A sequence of outputs you wish to send in the form
                         ``(destination, amount, currency)``. The amount can
@@ -532,23 +532,23 @@ class PrivateKeyTestnet(BaseKey):
                         must be :ref:`supported <supported currencies>`.
         :type outputs: ``list`` of ``tuple``
         :param fee: The number of satoshi per byte to pay to miners. By default
-                    Bit will poll `<https://bitcoinfees.earn.com>`_ and use a fee
+                    Lit will poll `<https://bitcoinfees.earn.com>`_ and use a fee
                     that will allow your transaction to be confirmed as soon as
                     possible.
         :type fee: ``int``
         :param leftover: The destination that will receive any change from the
-                         transaction. By default Bit will send any change to
+                         transaction. By default Lit will send any change to
                          the same address you sent from.
         :type leftover: ``str``
-        :param combine: Whether or not Bit should use all available UTXOs to
+        :param combine: Whether or not Lit should use all available UTXOs to
                         make future transactions smaller and therefore reduce
-                        fees. By default Bit will consolidate UTXOs.
+                        fees. By default Lit will consolidate UTXOs.
         :type combine: ``bool``
         :param message: A message to include in the transaction. This will be
                         stored in the blockchain forever. Due to size limits,
                         each message will be stored in chunks of 40 bytes.
         :type message: ``str``
-        :param unspents: The UTXOs to use as the inputs. By default Bit will
+        :param unspents: The UTXOs to use as the inputs. By default Lit will
                          communicate with the testnet blockchain itself.
         :type unspents: ``list`` of :class:`~bit.network.meta.Unspent`
         :returns: The transaction ID.
@@ -580,7 +580,7 @@ class PrivateKeyTestnet(BaseKey):
                            compressed public key. This influences the fee.
         :type compressed: ``bool``
         :param fee: The number of satoshi per byte to pay to miners. By default
-                    Bit will poll `<https://bitcoinfees.earn.com>`_ and use a fee
+                    Lit will poll `<https://bitcoinfees.earn.com>`_ and use a fee
                     that will allow your transaction to be confirmed as soon as
                     possible.
         :type fee: ``int``
@@ -596,9 +596,9 @@ class PrivateKeyTestnet(BaseKey):
                         stored in the blockchain forever. Due to size limits,
                         each message will be stored in chunks of 40 bytes.
         :type message: ``str``
-        :param unspents: The UTXOs to use as the inputs. By default Bit will
+        :param unspents: The UTXOs to use as the inputs. By default Lit will
                          communicate with the blockchain itself.
-        :type unspents: ``list`` of :class:`~bit.network.meta.Unspent`
+        :type unspents: ``list`` of :class:`~lit.network.meta.Unspent`
         :returns: JSON storing data required to create an offline transaction.
         :rtype: ``str``
         """
@@ -623,7 +623,7 @@ class PrivateKeyTestnet(BaseKey):
         """Creates a signed P2PKH transaction using previously prepared
         transaction data.
 
-        :param tx_data: Output of :func:`~bit.PrivateKeyTestnet.prepare_transaction`.
+        :param tx_data: Output of :func:`~lit.PrivateKeyTestnet.prepare_transaction`.
         :type tx_data: ``str``
         :returns: The signed transaction as hex.
         :rtype: ``str``
@@ -640,7 +640,7 @@ class PrivateKeyTestnet(BaseKey):
         """
         :param hexed: A private key previously encoded as hex.
         :type hexed: ``str``
-        :rtype: :class:`~bit.PrivateKeyTestnet`
+        :rtype: :class:`~lit.PrivateKeyTestnet`
         """
         return PrivateKeyTestnet(ECPrivateKey.from_hex(hexed))
 
@@ -649,7 +649,7 @@ class PrivateKeyTestnet(BaseKey):
         """
         :param bytestr: A private key previously encoded as hex.
         :type bytestr: ``bytes``
-        :rtype: :class:`~bit.PrivateKeyTestnet`
+        :rtype: :class:`~lit.PrivateKeyTestnet`
         """
         return PrivateKeyTestnet(ECPrivateKey(bytestr))
 
@@ -658,7 +658,7 @@ class PrivateKeyTestnet(BaseKey):
         """
         :param der: A private key previously encoded as DER.
         :type der: ``bytes``
-        :rtype: :class:`~bit.PrivateKeyTestnet`
+        :rtype: :class:`~lit.PrivateKeyTestnet`
         """
         return PrivateKeyTestnet(ECPrivateKey.from_der(der))
 
@@ -667,7 +667,7 @@ class PrivateKeyTestnet(BaseKey):
         """
         :param pem: A private key previously encoded as PEM.
         :type pem: ``bytes``
-        :rtype: :class:`~bit.PrivateKeyTestnet`
+        :rtype: :class:`~lit.PrivateKeyTestnet`
         """
         return PrivateKeyTestnet(ECPrivateKey.from_pem(pem))
 
@@ -676,7 +676,7 @@ class PrivateKeyTestnet(BaseKey):
         """
         :param num: A private key in raw integer form.
         :type num: ``int``
-        :rtype: :class:`~bit.PrivateKeyTestnet`
+        :rtype: :class:`~lit.PrivateKeyTestnet`
         """
         return PrivateKeyTestnet(ECPrivateKey.from_int(num))
 

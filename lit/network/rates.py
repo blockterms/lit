@@ -5,7 +5,7 @@ from time import time
 
 import requests
 
-from bit.utils import Decimal
+from lit.utils import Decimal
 
 DEFAULT_CACHE_TIME = 60
 

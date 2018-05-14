@@ -1,14 +1,14 @@
 import pytest
 
-from bit.format import (
+from lit.format import (
     address_to_public_key_hash, bytes_to_wif, coords_to_public_key,
     get_version, point_to_public_key, public_key_to_coords,
     public_key_to_address, verify_sig, wif_checksum_check, wif_to_bytes
 )
 from .samples import (
-    BITCOIN_ADDRESS, BITCOIN_ADDRESS_COMPRESSED, BITCOIN_ADDRESS_PAY2SH,
-    BITCOIN_ADDRESS_TEST_COMPRESSED, BITCOIN_ADDRESS_TEST,
-    BITCOIN_ADDRESS_TEST_PAY2SH, PRIVATE_KEY_BYTES, PUBKEY_HASH,
+    LITECOIN_ADDRESS, LITECOIN_ADDRESS_COMPRESSED, LITECOIN_ADDRESS_PAY2SH,
+    LITECOIN_ADDRESS_TEST_COMPRESSED, LITECOIN_ADDRESS_TEST,
+    LITECOIN_ADDRESS_TEST_PAY2SH, PRIVATE_KEY_BYTES, PUBKEY_HASH,
     PUBKEY_HASH_COMPRESSED, PUBLIC_KEY_COMPRESSED, PUBLIC_KEY_UNCOMPRESSED,
     PUBLIC_KEY_X, PUBLIC_KEY_Y,
     WALLET_FORMAT_COMPRESSED_MAIN, WALLET_FORMAT_COMPRESSED_TEST,
@@ -32,12 +32,12 @@ DATA = b'data'
 
 class TestGetVersion:
     def test_mainnet(self):
-        assert get_version(BITCOIN_ADDRESS) == 'main'
-        assert get_version(BITCOIN_ADDRESS_COMPRESSED) == 'main'
+        assert get_version(LITECOIN_ADDRESS) == 'main'
+        assert get_version(LITECOIN_ADDRESS_COMPRESSED) == 'main'
 
     def test_testnet(self):
-        assert get_version(BITCOIN_ADDRESS_TEST) == 'test'
-        assert get_version(BITCOIN_ADDRESS_TEST_COMPRESSED) == 'test'
+        assert get_version(LITECOIN_ADDRESS_TEST) == 'test'
+        assert get_version(LITECOIN_ADDRESS_TEST_COMPRESSED) == 'test'
 
     def test_invalid(self):
         with pytest.raises(ValueError):
@@ -45,11 +45,11 @@ class TestGetVersion:
 
     def test_mainnet_pay2sh(self):
         with pytest.raises(ValueError):
-            get_version(BITCOIN_ADDRESS_PAY2SH)
+            get_version(LITECOIN_ADDRESS_PAY2SH)
 
     def test_testnet_pay2sh(self):
         with pytest.raises(ValueError):
-            get_version(BITCOIN_ADDRESS_TEST_PAY2SH)
+            get_version(LITECOIN_ADDRESS_TEST_PAY2SH)
 
 
 class TestVerifySig:
@@ -88,7 +88,7 @@ class TestWIFToBytes:
 
     def test_invalid_network(self):
         with pytest.raises(ValueError):
-            wif_to_bytes(BITCOIN_ADDRESS)
+            wif_to_bytes(LITECOIN_ADDRESS)
 
 
 class TestWIFChecksumCheck:
@@ -102,10 +102,10 @@ class TestWIFChecksumCheck:
         assert wif_checksum_check(WALLET_FORMAT_COMPRESSED_MAIN)
 
     def test_wif_checksum_check_decode_failure(self):
-        assert not wif_checksum_check(BITCOIN_ADDRESS[:-1])
+        assert not wif_checksum_check(LITECOIN_ADDRESS[:-1])
 
     def test_wif_checksum_check_other_failure(self):
-        assert not wif_checksum_check(BITCOIN_ADDRESS)
+        assert not wif_checksum_check(LITECOIN_ADDRESS)
 
 
 class TestPublicKeyToCoords:
@@ -122,20 +122,20 @@ class TestPublicKeyToCoords:
 
 class TestPublicKeyToAddress:
     def test_public_key_to_address_compressed(self):
-        assert public_key_to_address(PUBLIC_KEY_COMPRESSED) == BITCOIN_ADDRESS_COMPRESSED
+        assert public_key_to_address(PUBLIC_KEY_COMPRESSED) == LITECOIN_ADDRESS_COMPRESSED
 
     def test_public_key_to_address_uncompressed(self):
-        assert public_key_to_address(PUBLIC_KEY_UNCOMPRESSED) == BITCOIN_ADDRESS
+        assert public_key_to_address(PUBLIC_KEY_UNCOMPRESSED) == LITECOIN_ADDRESS
 
     def test_public_key_to_address_incorrect_length(self):
         with pytest.raises(ValueError):
             public_key_to_address(PUBLIC_KEY_COMPRESSED[:-1])
 
     def test_public_key_to_address_test_compressed(self):
-        assert public_key_to_address(PUBLIC_KEY_COMPRESSED, version='test') == BITCOIN_ADDRESS_TEST_COMPRESSED
+        assert public_key_to_address(PUBLIC_KEY_COMPRESSED, version='test') == LITECOIN_ADDRESS_TEST_COMPRESSED
 
     def test_public_key_to_address_test_uncompressed(self):
-        assert public_key_to_address(PUBLIC_KEY_UNCOMPRESSED, version='test') == BITCOIN_ADDRESS_TEST
+        assert public_key_to_address(PUBLIC_KEY_UNCOMPRESSED, version='test') == LITECOIN_ADDRESS_TEST
 
 
 class TestCoordsToPublicKey:
@@ -154,9 +154,9 @@ def test_point_to_public_key():
 
 
 def test_address_to_public_key_hash():
-    assert address_to_public_key_hash(BITCOIN_ADDRESS) == PUBKEY_HASH
-    assert address_to_public_key_hash(BITCOIN_ADDRESS_COMPRESSED) == PUBKEY_HASH_COMPRESSED
+    assert address_to_public_key_hash(LITECOIN_ADDRESS) == PUBKEY_HASH
+    assert address_to_public_key_hash(LITECOIN_ADDRESS_COMPRESSED) == PUBKEY_HASH_COMPRESSED
     with pytest.raises(ValueError):
-        address_to_public_key_hash(BITCOIN_ADDRESS_PAY2SH)
+        address_to_public_key_hash(LITECOIN_ADDRESS_PAY2SH)
     with pytest.raises(ValueError):
-        address_to_public_key_hash(BITCOIN_ADDRESS_TEST_PAY2SH)
+        address_to_public_key_hash(LITECOIN_ADDRESS_TEST_PAY2SH)

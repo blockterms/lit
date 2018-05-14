@@ -1,4 +1,4 @@
-from bit.network.meta import Unspent
+from lit.network.meta import Unspent
 
 
 class TestUnspent:

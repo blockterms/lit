@@ -4,7 +4,7 @@ Bit: Bitcoin made easy.
 Version |version|.
 
 .. image:: https://img.shields.io/pypi/v/bit.svg?style=flat-square
-    :target: https://pypi.org/project/bit
+    :target: https://pypi.org/project/litpy
 
 .. image:: https://img.shields.io/travis/ofek/bit.svg?branch=master&style=flat-square
     :target: https://travis-ci.org/ofek/bit
@@ -13,15 +13,15 @@ Version |version|.
     :target: https://codecov.io/gh/ofek/bit
 
 .. image:: https://img.shields.io/pypi/pyversions/bit.svg?style=flat-square
-    :target: https://pypi.org/project/bit
+    :target: https://pypi.org/project/litpy
 
 .. image:: https://img.shields.io/badge/license-MIT-blue.svg?style=flat-square
     :target: https://en.wikipedia.org/wiki/MIT_License
 
 -----
 
-Bit is Python's `fastest <https://ofek.github.io/bit/guide/intro.html#why-bit>`_
-Bitcoin library and was designed from the beginning to feel intuitive, be
+Lit is Python's
+Litecoin library and was designed from the beginning to feel intuitive, be
 effortless to use, and have readable source code. It is heavily inspired by
 `Requests <https://github.com/kennethreitz/requests>`_ and
 `Keras <https://github.com/fchollet/keras>`_.
@@ -30,7 +30,7 @@ effortless to use, and have readable source code. It is heavily inspired by
 
 .. code-block:: python
 
-    >>> from bit import Key
+    >>> from lit import Key
     >>>
     >>> my_key = Key(...)
     >>> my_key.get_balance('usd')
@@ -110,7 +110,7 @@ and the community surrounding it.
 Dev Guide
 ---------
 
-Up ahead is Bit's API and a few notes about design decisions. Beware the
+Up ahead is Lit's API and a few notes about design decisions. Beware the
 pedantry, or lack thereof.
 
 .. toctree::

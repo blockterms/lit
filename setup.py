@@ -1,26 +1,26 @@
 from setuptools import find_packages, setup
 
-with open('bit/__init__.py', 'r') as f:
+with open('lit/__init__.py', 'r') as f:
     for line in f:
         if line.startswith('__version__'):
             version = line.strip().split('= ')[1].strip("'")
             break
 
 setup(
-    name='bit',
+    name='lit',
     version=version,
-    description='Bitcoin made easy.',
+    description='Litecoin made easy.',
     long_description=open('README.rst', 'r').read(),
-    author='Ofek Lev',
-    author_email='ofekmeister@gmail.com',
-    maintainer='Ofek Lev',
-    maintainer_email='ofekmeister@gmail.com',
-    url='https://github.com/ofek/bit',
-    download_url='https://github.com/ofek/bit',
+    author='yak',
+    author_email='yak@fastmail.com',
+    maintainer='yak',
+    maintainer_email='yak@fastmail.com',
+    url='https://github.com/blockterms/lit',
+    download_url='https://github.com/blockterms/lit',
     license='MIT',
 
     keywords=(
-        'bitcoin',
+        'litecoin',
         'cryptocurrency',
         'payments',
         'tools',
@@ -50,7 +50,7 @@ setup(
     packages=find_packages(),
     entry_points={
         'console_scripts': (
-            'bit = bit.cli:bit',
+            'lit = lit.cli:lit',
         ),
     },
 )

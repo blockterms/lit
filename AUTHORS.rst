@@ -1,3 +1,4 @@
+Lit is forked from Bit
 Bit is written and maintained by Ofek Lev.
 
 Maintainers

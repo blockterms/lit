@@ -1,7 +1,7 @@
 import requests
 
-from bit.network import currency_to_satoshi
-from bit.network.meta import Unspent
+from lit.network import currency_to_satoshi
+from lit.network.meta import Unspent
 
 DEFAULT_TIMEOUT = 10
 

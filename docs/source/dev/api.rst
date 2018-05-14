@@ -3,26 +3,26 @@
 Developer Interface
 ===================
 
-.. module:: bit
+.. module:: litpy
 
 .. _keysapi:
 
 Keys
 ----
 
-.. autoclass:: bit.Key
+.. autoclass:: lit.Key
 
-.. autoclass:: bit.PrivateKey
+.. autoclass:: lit.PrivateKey
     :members:
     :undoc-members:
     :inherited-members:
 
-.. autoclass:: bit.PrivateKeyTestnet
+.. autoclass:: lit.PrivateKeyTestnet
     :members:
     :undoc-members:
     :inherited-members:
 
-.. autoclass:: bit.wallet.BaseKey
+.. autoclass:: lit.wallet.BaseKey
     :members:
     :undoc-members:
 
